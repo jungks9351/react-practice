@@ -10,8 +10,6 @@ const PostList = () => {
     return { postList: postReducer.postList, err: postReducer.err };
   });
 
-  console.log(postList);
-
   const dispatch = useDispatch();
 
   const removePost = () => {

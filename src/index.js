@@ -3,24 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import countReducer from './redux/counter';
-import postReducer from './redux/post';
-import { all } from '@redux-saga/core/effects';
-import { postSaga } from './redux/post';
+import reducer from './redux';
+import rootSaga from './sagas';
 import createSagaMiddleWare from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-
-const reducer = combineReducers({
-  countReducer,
-  postReducer,
-});
-
-function* rootSaga() {
-  yield all([postSaga()]);
-}
 
 const sagaMiddleWare = createSagaMiddleWare();
 
