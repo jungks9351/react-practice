@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getPostActionCreator,
-  getPostByIdActionCreator,
-  deletePostActionCreator,
-} from '../redux/post';
+import { getPostList, getPostById, deletePost } from '../redux/post';
 import PostItem from './PostItem';
 
 const PostList = () => {
   const [postId, setPostId] = useState('');
 
-  const { postList, err } = useSelector(({ postReducer }) => {
+  const { postList } = useSelector(({ postReducer }) => {
     return { postList: postReducer.postList, err: postReducer.err };
   });
 
@@ -18,8 +14,8 @@ const PostList = () => {
 
   const dispatch = useDispatch();
 
-  const deletePost = () => {
-    dispatch(deletePostActionCreator(postId));
+  const removePost = () => {
+    dispatch(deletePost(postId));
   };
 
   const changeId = (e) => {
@@ -27,20 +23,20 @@ const PostList = () => {
   };
 
   const readPostById = () => {
-    dispatch(getPostByIdActionCreator(postId));
+    dispatch(getPostById(postId));
   };
 
   useEffect(() => {
-    dispatch(getPostActionCreator());
+    dispatch(getPostList());
   }, [dispatch]);
   return (
     <>
       <input type='text' onChange={changeId} />
       <button onClick={readPostById}>포스트 불러오기</button>
-      <button onClick={deletePost}>포스트 삭제</button>
+      <button onClick={removePost}>포스트 삭제</button>
       {/* {err && <p>{err}</p>} */}
       <ul>
-        {postList.map((postItem) => {
+        {postList?.map((postItem) => {
           return <PostItem key={postItem.postId} postItem={postItem} />;
         })}
       </ul>

@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import countReducer from './redux/counter';
 import postReducer from './redux/post';
 import { all } from '@redux-saga/core/effects';
 import { postSaga } from './redux/post';
 import createSagaMiddleWare from 'redux-saga';
+import { configureStore } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 
-const rootReducer = combineReducers({
+const reducer = combineReducers({
   countReducer,
   postReducer,
 });
@@ -23,10 +24,13 @@ function* rootSaga() {
 
 const sagaMiddleWare = createSagaMiddleWare();
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleWare))
-);
+const middleware = [sagaMiddleWare, logger];
+
+const store = configureStore({
+  reducer,
+  middleware,
+  devTools: true,
+});
 
 // store를 만들고 실행시켜야만 합니다.
 sagaMiddleWare.run(rootSaga);

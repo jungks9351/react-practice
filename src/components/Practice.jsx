@@ -1,10 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  increaseCreateAction,
-  decreaseCreateAction,
-  changeValueCreateAction,
-} from '../redux/counter';
+import { increaseCount, decreaseCount, changeValue } from '../redux/counter';
 
 const Practice = () => {
   const value = useSelector(({ countReducer }) => {
@@ -14,20 +10,20 @@ const Practice = () => {
   const dispatch = useDispatch();
 
   const increase = () => {
-    dispatch(increaseCreateAction(value));
+    dispatch(increaseCount(value));
   };
   const decrease = () => {
-    dispatch(decreaseCreateAction(value));
+    dispatch(decreaseCount(value));
   };
 
-  const changeValue = (e) => {
+  const changeInput = (e) => {
     console.log(e.target.value);
-    dispatch(changeValueCreateAction(+e.target.value));
+    dispatch(changeValue(+e.target.value));
   };
 
   return (
     <div>
-      <input type='text' onChange={changeValue} />
+      <input type='text' onChange={changeInput} />
       <button onClick={increase}>+</button>
       <button onClick={decrease}>-</button>
     </div>
