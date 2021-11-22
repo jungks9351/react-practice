@@ -1,13 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import countReducer from './redux/counter';
+import postReducer from './redux/post';
+import { all } from '@redux-saga/core/effects';
+import { postSaga } from './redux/post';
+import createSagaMiddleWare from 'redux-saga';
+
+const rootReducer = combineReducers({
+  countReducer,
+  postReducer,
+});
+
+function* rootSaga() {
+  yield all([postSaga()]);
+}
+
+const sagaMiddleWare = createSagaMiddleWare();
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(sagaMiddleWare))
+);
+
+// store를 만들고 실행시켜야만 합니다.
+sagaMiddleWare.run(rootSaga);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
