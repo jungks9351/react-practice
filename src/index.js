@@ -5,14 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import reducer from './redux';
-import rootSaga from './sagas';
-import createSagaMiddleWare from 'redux-saga';
+import thunk from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
-const sagaMiddleWare = createSagaMiddleWare();
+// const sagaMiddleWare = createSagaMiddleWare();
 
-const middleware = [sagaMiddleWare, logger];
+const middleware = [thunk, logger];
 
 const store = configureStore({
   reducer,
@@ -21,7 +20,7 @@ const store = configureStore({
 });
 
 // store를 만들고 실행시켜야만 합니다.
-sagaMiddleWare.run(rootSaga);
+// sagaMiddleWare.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>

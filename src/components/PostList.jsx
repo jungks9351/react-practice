@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { getPostList, getPostById, deletePost } from '../redux/post';
 import PostItem from './PostItem';
+import { postLoadThunk } from '../redux/post';
 
 const PostList = () => {
   const [postId, setPostId] = useState('');
@@ -23,10 +24,10 @@ const PostList = () => {
   const readPostById = () => {
     dispatch(getPostById(postId));
   };
-
   useEffect(() => {
-    dispatch(getPostList());
-  }, [dispatch]);
+    postLoadThunk();
+  }, [postLoadThunk]);
+  console.log(postList);
   return (
     <>
       <input type='text' onChange={changeId} />

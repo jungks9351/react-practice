@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { readPostList } from '../lib/post';
 
 const initialState = {
   postList: [],
@@ -61,5 +62,15 @@ export const {
   getPostByIdFail,
   deletePost,
 } = postSlice.actions;
+
+export const postLoadThunk = () => async (dispatch, getState) => {
+  dispatch(getPostList());
+  try {
+    const res = await readPostList();
+    dispatch(getPostListSuccess(res));
+  } catch (err) {
+    dispatch(getPostListFail(err));
+  }
+};
 
 export default postSlice.reducer;

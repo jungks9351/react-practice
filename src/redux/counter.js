@@ -28,5 +28,11 @@ const countSlice = createSlice({
     },
   },
 });
+export const increase = () => (dispatch) => {
+  setTimeout(() => {
+    dispatch(increaseCount());
+  }, 1000);
+};
+
 export const { increaseCount, decreaseCount, changeValue } = countSlice.actions;
 export default countSlice.reducer;
