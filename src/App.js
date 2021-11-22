@@ -1,15 +1,15 @@
 import React from 'react';
-import Counter from './components/Counter';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import PostList from './components/PostList';
-import Practice from './components/Practice';
 
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <>
-      <Practice />
-      <Counter />
+    <QueryClientProvider client={queryClient}>
       <PostList />
-    </>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
